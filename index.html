@@ -39,34 +39,20 @@
     Layar penuh
    </button>
    <div aria-label="Kontrol mobile" id="touchControls">
-    <div class="joystick-zone" id="joystickZone">
-     <div class="joystick-base" id="joystickBase">
-      <div class="joystick-knob" id="joystickKnob">
-      </div>
-     </div>
-     <button aria-hidden="true" class="ctrl left virtual-direction" data-code="ArrowLeft">
-      Kiri
-     </button>
-     <button aria-hidden="true" class="ctrl right virtual-direction" data-code="ArrowRight">
-      Kanan
-     </button>
+    <div id="stickZone"></div>
+    <div class="stick-base stickIdle" id="stickBase"></div>
+    <div class="stick-live" id="stickLive"><i></i></div>
+    <div class="pad">
+     <button aria-label="Kiri" class="ctrl left" data-code="ArrowLeft">◀</button>
+     <button aria-label="Kanan" class="ctrl right" data-code="ArrowRight">▶</button>
+     <button aria-label="Lompat" class="ctrl jump" data-code="Space">▲</button>
+     <button aria-label="Turun" class="ctrl down" data-code="ArrowDown">▼</button>
     </div>
-    <button aria-label="Turun" class="ctrl down utility-action" data-code="ArrowDown">
-     &darr;
-    </button>
-    <div class="combat-actions">
-     <button aria-label="Skill" class="ctrl skill" data-action="skill">
-      S
-     </button>
-     <button aria-label="Ultimate" class="ctrl ult" data-action="ult">
-      U
-     </button>
-     <button aria-label="Lompat" class="ctrl jump" data-code="Space">
-      &uarr;
-     </button>
-     <button aria-label="Serang" class="ctrl attack" data-action="attack">
-      ✦
-     </button>
+    <div class="actions">
+     <button aria-label="Serang" class="ctrl attack" data-action="attack">SERANG</button>
+     <button aria-label="Skill" class="ctrl skill" data-action="skill">SKILL</button>
+     <button aria-label="Ultimate" class="ctrl ult" data-action="ult">ULT</button>
+     <button aria-label="Lompat" class="ctrl jumpR" data-code="Space">▲</button>
     </div>
     <button aria-label="Pause" class="ctrl pause" data-code="Escape">
      Ⅱ
@@ -167,6 +153,9 @@
       </h2>
       <p id="gameOverSummary">
       </p>
+      <button class="reviveBtn" id="reviveTouch" type="button">
+       GUNAKAN REVIVE
+      </button>
       <button class="restartBtn" id="restartTouch" type="button">
        MAIN LAGI
       </button>
@@ -208,6 +197,14 @@
       Sedikit
      </span>
      <input id="hzLevel" max="2" min="0" step="1" type="range" value="1">
+    </div>
+    <div class="settingsActions" style="justify-content:flex-start;flex-wrap:wrap">
+     <button id="styleBtn" type="button">
+      Gaya kontrol
+     </button>
+     <button id="floatBtn" type="button">
+      Joystick
+     </button>
     </div>
     <div class="settingsActions" style="justify-content:flex-start;flex-wrap:wrap">
      <button id="swapSides" type="button">

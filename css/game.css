@@ -416,9 +416,23 @@ canvas {
   font-size:clamp(20px,5dvh,36px);
   margin-bottom:7px
 }
-.upgradeBtn:active,.restartBtn:active {
+.upgradeBtn:active,.restartBtn:active,.reviveBtn:active {
   transform:scale(.96);
   filter:brightness(1.35)
+}
+.reviveBtn {
+  border:2px solid #6f8;
+  border-radius:16px;
+  background:#164b3a;
+  color:#dff;
+  padding:14px 28px;
+  margin:0 6px 10px;
+  font:800 clamp(15px,3.2dvh,22px) system-ui;
+  touch-action:none
+}
+.reviveBtn:disabled {
+  opacity:.45;
+  cursor:not-allowed
 }
 .restartBtn {
   border:2px solid #4df;

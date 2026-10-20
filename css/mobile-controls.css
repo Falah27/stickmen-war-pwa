@@ -129,3 +129,124 @@
   #touchControls { --control-size: clamp(40px, 10dvh, 54px); --main-size: clamp(54px, 13.5dvh, 72px); }
   .joystick-zone { width: clamp(96px, 24dvh, 130px); height: clamp(96px, 24dvh, 130px); }
 }
+
+#stickZone {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 38%;
+  height: 58%;
+  pointer-events: auto;
+  touch-action: none;
+  z-index: 1;
+}
+#stickBase,
+#stickLive {
+  position: absolute;
+  left: max(22px, env(safe-area-inset-left));
+  bottom: max(22px, env(safe-area-inset-bottom));
+  width: clamp(112px, 25dvh, 158px);
+  height: clamp(112px, 25dvh, 158px);
+  border-radius: 50%;
+  pointer-events: none;
+}
+#stickBase {
+  border: 2px solid var(--control-edge);
+  background: radial-gradient(circle, rgba(255,255,255,.08) 0 12%, transparent 13% 42%, rgba(10,12,17,.48) 43%), var(--control-bg);
+  box-shadow: 0 5px 15px rgba(0,0,0,.38), inset 0 0 16px rgba(255,255,255,.06);
+}
+#stickLive {
+  display: grid;
+  place-items: center;
+}
+#stickLive i {
+  display: block;
+  width: 42%;
+  height: 42%;
+  border: 2px solid rgba(255,255,255,.25);
+  border-radius: 50%;
+  background: linear-gradient(145deg, #626973, #30353c);
+  box-shadow: 0 4px 12px rgba(0,0,0,.55), inset 0 2px 5px rgba(255,255,255,.15);
+  transform: translate(0, 0);
+  transition: transform 55ms linear;
+}
+#touchControls .pad,
+#touchControls .actions {
+  position: absolute;
+  bottom: max(14px, env(safe-area-inset-bottom));
+  height: calc(max(var(--control-size), var(--main-size)) * 2 + 18px);
+  pointer-events: none;
+  z-index: 2;
+}
+#touchControls .pad {
+  left: max(18px, env(safe-area-inset-left));
+  width: clamp(160px, 36dvh, 230px);
+}
+#touchControls .actions {
+  right: max(18px, env(safe-area-inset-right));
+  width: clamp(190px, 43dvh, 275px);
+}
+#touchControls .pad .ctrl,
+#touchControls .actions .ctrl {
+  pointer-events: auto;
+}
+#touchControls .pad .left {
+  left: 0;
+  bottom: 0;
+}
+#touchControls .pad .right {
+  left: clamp(78px, 17dvh, 112px);
+  bottom: 0;
+}
+#touchControls .pad .jump {
+  left: clamp(39px, 8.5dvh, 56px);
+  bottom: clamp(78px, 17dvh, 112px);
+}
+#touchControls .pad .down {
+  left: clamp(39px, 8.5dvh, 56px);
+  bottom: 0;
+}
+#touchControls .actions .attack {
+  right: 0;
+  bottom: 0;
+  width: var(--main-size);
+  height: var(--main-size);
+  font-size: clamp(12px, 2.4dvh, 18px);
+}
+#touchControls .actions .skill {
+  right: clamp(92px, 20dvh, 132px);
+  bottom: 0;
+}
+#touchControls .actions .ult {
+  right: clamp(54px, 12dvh, 82px);
+  bottom: clamp(78px, 17dvh, 112px);
+}
+#touchControls .actions .jumpR {
+  display: none;
+}
+#game.lefty #stickZone,
+#game.lefty #stickBase,
+#game.lefty #stickLive {
+  left: auto;
+  right: max(22px, env(safe-area-inset-right));
+}
+#game.lefty .pad {
+  left: auto;
+  right: max(18px, env(safe-area-inset-right));
+}
+#game.lefty .actions {
+  right: auto;
+  left: max(18px, env(safe-area-inset-left));
+}
+#game.compact-controls #touchControls .pad,
+#game.compact-controls #touchControls .actions {
+  transform: scale(.86);
+  transform-origin: bottom left;
+}
+#game.compact-controls #touchControls .actions {
+  transform-origin: bottom right;
+}
+#game.floating-stick #stickBase,
+#game.floating-stick #stickLive {
+  bottom: max(72px, calc(env(safe-area-inset-bottom) + 50px));
+}

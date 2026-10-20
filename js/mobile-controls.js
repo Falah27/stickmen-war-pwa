@@ -1,8 +1,9 @@
 (() => {
   'use strict';
-  const zone = document.getElementById('joystickZone');
-  const knob = document.getElementById('joystickKnob');
-  if (!zone || !knob) return;
+  const zone = document.getElementById('stickZone') || document.getElementById('joystickZone');
+  const base = document.getElementById('stickBase') || document.getElementById('joystickBase');
+  const knob = document.querySelector('#stickLive i') || document.getElementById('joystickKnob');
+  if (!zone || !base || !knob) return;
 
   let pointerId = null;
   let activeCode = null;
@@ -24,7 +25,7 @@
   };
 
   const updateJoystick = (event) => {
-    const rect = zone.getBoundingClientRect();
+    const rect = base.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
     const maxRadius = rect.width * 0.29;
