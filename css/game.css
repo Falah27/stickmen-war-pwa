@@ -58,92 +58,6 @@ canvas {
 #settingsBtn {
   left:max(58px,calc(env(safe-area-inset-left) + 58px))
 }
-#touchControls {
-  display:none;
-  position:absolute;
-  inset:0;
-  z-index:10;
-  pointer-events:none
-}
-.pad,.actions {
-  position:absolute;
-  bottom:max(10px,env(safe-area-inset-bottom));
-  height:34%;
-  pointer-events:none
-}
-.pad {
-  left:max(10px,env(safe-area-inset-left));
-  width:34%
-}
-.actions {
-  right:max(10px,env(safe-area-inset-right));
-  width:31%
-}
-.ctrl {
-  position:absolute;
-  pointer-events:auto;
-  border:1px solid #ffffff48;
-  background:#101521b8;
-  color:#fff;
-  font:800 clamp(11px,2.25vw,18px) system-ui;
-  border-radius:50%;
-  width:clamp(50px,8.5vw,72px);
-  height:clamp(50px,8.5vw,72px);
-  display:grid;
-  place-items:center;
-  box-shadow:0 4px 14px #0009,inset 0 0 15px #ffffff0b;
-  backdrop-filter:blur(4px);
-  touch-action:none
-}
-.ctrl.active {
-  filter:brightness(1.5);
-  transform:scale(.91);
-  border-color:#fff
-}
-.left {
-  left:0;
-  bottom:0
-}
-.right {
-  left:clamp(64px,10.5vw,90px);
-  bottom:0
-}
-.jump {
-  left:clamp(32px,5.25vw,45px);
-  bottom:clamp(62px,10vw,84px);
-  background:#2774bccc
-}
-.down {
-  left:clamp(32px,5.25vw,45px);
-  bottom:clamp(-3px,-.5vw,0px)
-}
-.attack {
-  right:0;
-  bottom:0;
-  background:#c43f4dcc
-}
-.skill {
-  right:clamp(64px,10.5vw,90px);
-  bottom:0;
-  background:#318956cc
-}
-.ult {
-  right:clamp(32px,5.25vw,45px);
-  bottom:clamp(62px,10vw,84px);
-  background:#d19b24dd;
-  color:#171000
-}
-.pause {
-  left:max(8px,env(safe-area-inset-left));
-  top:max(8px,env(safe-area-inset-top));
-  bottom:auto;
-  width:44px;
-  height:44px;
-  border-radius:12px
-}
-#game.touch #touchControls {
-  display:block
-}
 #controllerSelect {
   position:fixed;
   z-index:120;
@@ -274,18 +188,6 @@ canvas {
 #game {
   width:var(--game-w);
   height:var(--game-h)
-}
-.pad,.actions {
-  bottom:max(var(--edge),env(safe-area-inset-bottom));
-  height:calc(max(var(--btn-min),var(--btn))*2 + var(--gap));
-}
-.pad {
-  left:max(var(--edge),env(safe-area-inset-left));
-  width:calc(max(var(--btn-min),var(--btn))*3 + var(--gap)*2)
-}
-.actions {
-  right:max(var(--edge),env(safe-area-inset-right));
-  width:calc(max(var(--btn-min),var(--btn))*2 + var(--gap))
 }
 .ctrl {
   width:max(var(--btn-min),var(--btn));
@@ -716,14 +618,6 @@ canvas {
   outline-offset:2px;
   opacity:1!important;
   filter:none!important
-}
-#game.lefty .pad {
-  left:auto;
-  right:max(var(--edge),env(safe-area-inset-right))
-}
-#game.lefty .actions {
-  right:auto;
-  left:max(var(--edge),env(safe-area-inset-left))
 }
 .ctrl {
   opacity:var(--ctrl-op,1)
