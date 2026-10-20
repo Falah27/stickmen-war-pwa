@@ -250,3 +250,113 @@
 #game.floating-stick #stickLive {
   bottom: max(72px, calc(env(safe-area-inset-bottom) + 50px));
 }
+
+/* Reference mobile layout: large analog pad on the left and separated combat
+   buttons on the right. The original controls remain in the DOM so the
+   keyboard-event bridge and edit mode keep working. */
+#game.touch #touchControls {
+  --control-size: clamp(72px, 8.5vw, 88px);
+  --main-size: clamp(132px, 15vw, 164px);
+}
+#game.touch #touchControls .pad {
+  display: none;
+}
+#game.touch #stickZone {
+  left: 0;
+  bottom: 0;
+  width: 31%;
+  height: 52%;
+  z-index: 4;
+}
+#game.touch #stickBase,
+#game.touch #stickLive {
+  left: clamp(36px, 3.8vw, 48px);
+  bottom: clamp(35px, 5.8vh, 58px);
+  width: clamp(158px, 21vw, 205px);
+  height: clamp(158px, 21vw, 205px);
+}
+#game.touch #stickBase {
+  border: 2px solid rgba(220,225,240,.35);
+  background: radial-gradient(circle, rgba(150,150,170,.38) 0 23%, transparent 24%), rgba(45,45,60,.18);
+  box-shadow: inset 0 0 24px rgba(255,255,255,.04), 0 0 0 1px rgba(255,255,255,.04);
+}
+#game.touch #stickLive i {
+  width: 39%;
+  height: 39%;
+  border: 0;
+  background: rgba(170,170,185,.38);
+  box-shadow: none;
+}
+#game.touch #touchControls .actions {
+  right: clamp(24px, 3.5vw, 42px);
+  bottom: clamp(18px, 3vh, 32px);
+  width: clamp(235px, 31vw, 310px);
+  height: clamp(205px, 38vh, 270px);
+  z-index: 5;
+}
+#game.touch #touchControls .actions .ctrl {
+  border-width: 1px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.05), inset 0 0 14px rgba(255,255,255,.06);
+  text-shadow: 0 2px 2px #000;
+}
+#game.touch #touchControls .actions .attack {
+  right: 0;
+  bottom: 0;
+  width: var(--main-size);
+  height: var(--main-size);
+  border-color: #ff744e;
+  background: rgba(152,65,43,.72);
+  font-size: clamp(20px, 2.4vw, 28px);
+}
+#game.touch #touchControls .actions .skill {
+  right: clamp(126px, 15vw, 158px);
+  bottom: 0;
+  width: var(--control-size);
+  height: var(--control-size);
+  border-color: #27c9ff;
+  background: rgba(12,69,112,.76);
+  font-size: clamp(15px, 1.8vw, 21px);
+}
+#game.touch #touchControls .actions .ult {
+  right: clamp(92px, 11vw, 116px);
+  bottom: clamp(108px, 18vh, 132px);
+  width: var(--control-size);
+  height: var(--control-size);
+  border-color: rgba(255,255,255,.22);
+  background: rgba(125,112,96,.55);
+  color: #111;
+  text-shadow: none;
+  font-size: clamp(15px, 1.8vw, 21px);
+}
+#game.touch #touchControls .actions .jumpR {
+  display: grid;
+  right: clamp(0px, 1vw, 10px);
+  bottom: clamp(132px, 22vh, 158px);
+  width: var(--control-size);
+  height: var(--control-size);
+  border-color: #36e984;
+  background: rgba(8,76,51,.72);
+  color: #fff;
+  font-size: clamp(22px, 2.8vw, 32px);
+}
+#game.touch #touchControls .pause {
+  left: clamp(17px, 2vw, 24px);
+  top: clamp(17px, 3vh, 28px);
+  width: clamp(62px, 6.5vw, 76px);
+  height: clamp(62px, 6.5vw, 76px);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 17px;
+  background: rgba(20,24,35,.76);
+  font-size: 20px;
+}
+#game.touch .topBtn {
+  display: none;
+}
+#game.lefty #touchControls .actions {
+  right: auto;
+  left: clamp(24px, 3.5vw, 42px);
+}
+#game.lefty #touchControls .actions .attack { left: 0; right: auto; }
+#game.lefty #touchControls .actions .skill { left: clamp(126px, 15vw, 158px); right: auto; }
+#game.lefty #touchControls .actions .ult { left: clamp(92px, 11vw, 116px); right: auto; }
+#game.lefty #touchControls .actions .jumpR { left: 0; right: auto; }
