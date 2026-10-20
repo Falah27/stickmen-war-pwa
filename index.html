@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="id">
+ <head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover" name="viewport">
+  <title>
+   Stickmen War
+  </title>
+  <link href="manifest.webmanifest" rel="manifest">
+  <meta content="#07101f" name="theme-color">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+  <link href="icons/icon-192.png" rel="apple-touch-icon">
+  <link href="css/game.css" rel="stylesheet">
+  <link href="css/mobile-controls.css" rel="stylesheet">
+ </head>
+ <body>
+  <div id="game">
+   <canvas height="540" id="c" width="960">
+   </canvas>
+   <div id="editBar">
+    <span>
+     Seret tombol ke posisi yang pas
+    </span>
+    <button id="editReset" type="button">
+     Reset posisi
+    </button>
+    <button class="primary" id="editDone" type="button">
+     Selesai
+    </button>
+   </div>
+   <button class="topBtn" id="modeBtn" type="button">
+    Mode: PC
+   </button>
+   <button class="topBtn" id="settingsBtn" type="button">
+    ⚙ Ukuran
+   </button>
+   <button class="topBtn" id="fullBtn" type="button">
+    Layar penuh
+   </button>
+   <div aria-label="Kontrol mobile" id="touchControls">
+    <div class="joystick-zone" id="joystickZone">
+     <div class="joystick-base" id="joystickBase">
+      <div class="joystick-knob" id="joystickKnob">
+      </div>
+     </div>
+     <button aria-hidden="true" class="ctrl left virtual-direction" data-code="ArrowLeft">
+      Kiri
+     </button>
+     <button aria-hidden="true" class="ctrl right virtual-direction" data-code="ArrowRight">
+      Kanan
+     </button>
+    </div>
+    <button aria-label="Turun" class="ctrl down utility-action" data-code="ArrowDown">
+     &darr;
+    </button>
+    <div class="combat-actions">
+     <button aria-label="Skill" class="ctrl skill" data-action="skill">
+      S
+     </button>
+     <button aria-label="Ultimate" class="ctrl ult" data-action="ult">
+      U
+     </button>
+     <button aria-label="Lompat" class="ctrl jump" data-code="Space">
+      &uarr;
+     </button>
+     <button aria-label="Serang" class="ctrl attack" data-action="attack">
+      ✦
+     </button>
+    </div>
+    <button aria-label="Pause" class="ctrl pause" data-code="Escape">
+     Ⅱ
+    </button>
+   </div>
+   <div id="touchStateUI">
+    <div id="mobileMenu">
+     <div class="mobilePanel">
+      <h2>
+       Pilih Karakter
+      </h2>
+      <div class="mobileCharacters">
+       <button class="mobileCharacter selected" data-character="0">
+        <strong>
+         Swordsman
+        </strong>
+        Melee seimbang
+        <small>
+         HP tinggi &bull; Dash Slash
+        </small>
+       </button>
+       <button class="mobileCharacter" data-character="1">
+        <strong>
+         Archer
+        </strong>
+        Serangan jarak jauh
+        <small>
+         Hujan Panah &bull; Laser
+        </small>
+       </button>
+       <button class="mobileCharacter" data-character="2">
+        <strong>
+         Mage
+        </strong>
+        Serangan area
+        <small>
+         Petir &bull; Meteor
+        </small>
+       </button>
+      </div>
+      <button class="mobileStart" id="mobileStart" type="button">
+       MULAI GAME
+      </button>
+     </div>
+    </div>
+    <div id="mobilePause">
+     <div class="mobilePanel">
+      <h2>
+       PAUSE
+      </h2>
+      <div class="pauseActions">
+       <button class="resume" id="resumeMobile" type="button">
+        LANJUTKAN
+       </button>
+       <button id="restartMobile" type="button">
+        ULANG DARI AWAL
+       </button>
+       <button id="menuMobile" type="button">
+        PILIH KARAKTER
+       </button>
+      </div>
+     </div>
+    </div>
+    <div id="upgradeTouch">
+     <div class="upgradePanel">
+      <h2>
+       Pilih Upgrade
+      </h2>
+      <div class="upgradeButtons">
+       <button class="upgradeBtn" data-upgrade="0">
+        <span>
+         1
+        </span>
+        <b>
+        </b>
+       </button>
+       <button class="upgradeBtn" data-upgrade="1">
+        <span>
+         2
+        </span>
+        <b>
+        </b>
+       </button>
+       <button class="upgradeBtn" data-upgrade="2">
+        <span>
+         3
+        </span>
+        <b>
+        </b>
+       </button>
+      </div>
+     </div>
+    </div>
+    <div id="gameOverTouch">
+     <div class="gameOverPanel">
+      <h2>
+       GAME OVER
+      </h2>
+      <p id="gameOverSummary">
+      </p>
+      <button class="restartBtn" id="restartTouch" type="button">
+       MAIN LAGI
+      </button>
+     </div>
+    </div>
+   </div>
+  </div>
+  <div id="controlSettings">
+   <div class="settingsCard">
+    <h2>
+     Pengaturan
+    </h2>
+    <p>
+     Semua perubahan tersimpan otomatis.
+    </p>
+    <div class="settingRow">
+     <label for="buttonSize">
+      Ukuran tombol
+     </label>
+     <span class="settingValue" id="buttonSizeValue">
+      120%
+     </span>
+     <input id="buttonSize" max="200" min="70" step="5" type="range" value="120">
+    </div>
+    <div class="settingRow">
+     <label for="buttonOpacity">
+      Transparansi tombol
+     </label>
+     <span class="settingValue" id="buttonOpacityValue">
+      100%
+     </span>
+     <input id="buttonOpacity" max="100" min="30" step="5" type="range" value="100">
+    </div>
+    <div class="settingRow">
+     <label for="hzLevel">
+      Rintangan (berlaku wave berikutnya)
+     </label>
+     <span class="settingValue" id="hzValue">
+      Sedikit
+     </span>
+     <input id="hzLevel" max="2" min="0" step="1" type="range" value="1">
+    </div>
+    <div class="settingsActions" style="justify-content:flex-start;flex-wrap:wrap">
+     <button id="swapSides" type="button">
+      Tukar sisi kiri/kanan
+     </button>
+     <button id="editLayout" type="button">
+      Atur posisi tombol
+     </button>
+    </div>
+    <div class="settingsActions">
+     <button id="resetButtonSize" type="button">
+      Reset
+     </button>
+     <button class="primary" id="closeSettings" type="button">
+      Tutup
+     </button>
+    </div>
+   </div>
+  </div>
+  <div id="controllerSelect">
+   <div class="controllerCard">
+    <h1>
+     Pilih Platform
+    </h1>
+    <p>
+     Pilih perangkat yang digunakan untuk bermain.
+    </p>
+    <div class="controllerOptions">
+     <button class="controllerChoice touchChoice" id="chooseTouch">
+      📱 Mobile
+      <small>
+       Antarmuka sentuh, fullscreen, dan getaran
+      </small>
+     </button>
+     <button class="controllerChoice" id="chooseKeyboard">
+      🖥️ PC
+      <small>
+       Keyboard: A/D, Space, J, K, dan L
+      </small>
+     </button>
+    </div>
+   </div>
+  </div>
+  <div id="rotateNotice">
+   <div>
+    <span class="phone">
+     📱
+    </span>
+    Putar HP ke posisi landscape
+    <small>
+     Game dirancang untuk dimainkan secara horizontal.
+    </small>
+   </div>
+  </div>
+  <script src="js/game.js">
+  </script>
+  <script src="js/mobile-controls.js">
+  </script>
+  <script src="js/pwa.js">
+  </script>
+ </body>
+</html>

@@ -1,0 +1,131 @@
+/* Compact mobile gamepad UI inspired by the supplied reference. */
+#touchControls {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  --control-size: clamp(46px, 10.5dvh, 68px);
+  --main-size: clamp(62px, 14dvh, 88px);
+  --control-bg: rgba(35, 40, 48, .82);
+  --control-edge: rgba(255, 255, 255, .24);
+}
+#game.touch #touchControls { display: block; }
+
+.joystick-zone {
+  position: absolute;
+  left: max(20px, env(safe-area-inset-left));
+  bottom: max(20px, env(safe-area-inset-bottom));
+  width: clamp(112px, 25dvh, 158px);
+  height: clamp(112px, 25dvh, 158px);
+  pointer-events: auto;
+  touch-action: none;
+}
+.joystick-base {
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--control-edge);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,.08) 0 12%, transparent 13% 42%, rgba(10,12,17,.48) 43%), var(--control-bg);
+  box-shadow: 0 5px 15px rgba(0,0,0,.38), inset 0 0 16px rgba(255,255,255,.06);
+}
+.joystick-knob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 42%;
+  height: 42%;
+  translate: -50% -50%;
+  border: 2px solid rgba(255,255,255,.25);
+  border-radius: 50%;
+  background: linear-gradient(145deg, #626973, #30353c);
+  box-shadow: 0 4px 12px rgba(0,0,0,.55), inset 0 2px 5px rgba(255,255,255,.15);
+  transition: transform 55ms linear;
+}
+.virtual-direction { display: none !important; }
+
+#touchControls .ctrl {
+  pointer-events: auto;
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: var(--control-size);
+  height: var(--control-size);
+  padding: 0;
+  border: 2px solid var(--control-edge);
+  border-radius: 50%;
+  background: var(--control-bg);
+  color: #fff;
+  font: 800 clamp(14px, 3dvh, 20px)/1 system-ui, sans-serif;
+  text-shadow: 0 2px 3px #000;
+  box-shadow: 0 5px 14px rgba(0,0,0,.4), inset 0 0 9px rgba(255,255,255,.06);
+  backdrop-filter: blur(4px);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+#touchControls .ctrl.active,
+#touchControls .ctrl:active {
+  transform: scale(.9);
+  background: rgba(92, 101, 115, .94);
+  filter: brightness(1.18);
+}
+
+.utility-action {
+  left: max(132px, calc(env(safe-area-inset-left) + 26dvh));
+  bottom: max(20px, env(safe-area-inset-bottom));
+}
+.combat-actions {
+  position: absolute;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(14px, env(safe-area-inset-bottom));
+  width: clamp(190px, 43dvh, 275px);
+  height: clamp(136px, 30dvh, 195px);
+  pointer-events: none;
+}
+.combat-actions .attack {
+  right: 0;
+  bottom: 0;
+  width: var(--main-size);
+  height: var(--main-size);
+  font-size: clamp(24px, 5dvh, 34px);
+  background: linear-gradient(145deg, rgba(77,84,96,.96), rgba(30,34,41,.96));
+}
+.combat-actions .jump {
+  right: clamp(78px, 17dvh, 112px);
+  bottom: 0;
+  width: var(--main-size);
+  height: var(--main-size);
+  font-size: clamp(24px, 5dvh, 34px);
+}
+.combat-actions .skill {
+  right: clamp(148px, 32dvh, 205px);
+  bottom: clamp(8px, 2dvh, 16px);
+}
+.combat-actions .ult {
+  right: clamp(54px, 12dvh, 82px);
+  bottom: clamp(78px, 17dvh, 112px);
+  border-color: rgba(255, 216, 91, .5);
+  color: #ffe574;
+}
+#touchControls .pause {
+  left: max(10px, env(safe-area-inset-left));
+  top: max(10px, env(safe-area-inset-top));
+  width: clamp(38px, 8dvh, 50px);
+  height: clamp(38px, 8dvh, 50px);
+  border-radius: 12px;
+  font-size: clamp(14px, 3dvh, 19px);
+}
+
+#game.lefty .joystick-zone { left: auto; right: max(20px, env(safe-area-inset-right)); }
+#game.lefty .combat-actions { right: auto; left: max(18px, env(safe-area-inset-left)); }
+#game.lefty .utility-action { left: auto; right: max(132px, calc(env(safe-area-inset-right) + 26dvh)); }
+#game.lefty .combat-actions .attack { right: auto; left: 0; }
+#game.lefty .combat-actions .jump { right: auto; left: clamp(78px, 17dvh, 112px); }
+#game.lefty .combat-actions .skill { right: auto; left: clamp(148px, 32dvh, 205px); }
+#game.lefty .combat-actions .ult { right: auto; left: clamp(54px, 12dvh, 82px); }
+
+@media (max-height: 380px) {
+  #touchControls { --control-size: clamp(40px, 10dvh, 54px); --main-size: clamp(54px, 13.5dvh, 72px); }
+  .joystick-zone { width: clamp(96px, 24dvh, 130px); height: clamp(96px, 24dvh, 130px); }
+}

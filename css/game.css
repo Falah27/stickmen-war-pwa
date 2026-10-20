@@ -1,0 +1,736 @@
+* {
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent
+}
+html,body {
+  width:100%;
+  height:100%;
+  margin:0;
+  overflow:hidden;
+  background:#05050b;
+  touch-action:none;
+  overscroll-behavior:none;
+  user-select:none;
+  -webkit-user-select:none;
+  -webkit-touch-callout:none
+}
+body {
+  display:grid;
+  place-items:center;
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)
+}
+#game {
+  position:relative;
+  width:min(100vw,calc(100vh * 16 / 9));
+  height:min(100vh,calc(100vw * 9 / 16));
+  max-width:100vw;
+  max-height:100vh;
+  background:#000;
+  overflow:hidden
+}
+canvas {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block
+}
+.topBtn {
+  position:absolute;
+  z-index:20;
+  top:max(8px,env(safe-area-inset-top));
+  border:1px solid #ffffff38;
+  background:#080b14cc;
+  color:#dcecff;
+  border-radius:12px;
+  padding:7px 10px;
+  font:700 12px system-ui;
+  box-shadow:0 3px 12px #0008;
+  touch-action:manipulation
+}
+#modeBtn {
+  left:50%;
+  transform:translateX(-50%)
+}
+#fullBtn {
+  right:max(8px,env(safe-area-inset-right))
+}
+#settingsBtn {
+  left:max(58px,calc(env(safe-area-inset-left) + 58px))
+}
+#touchControls {
+  display:none;
+  position:absolute;
+  inset:0;
+  z-index:10;
+  pointer-events:none
+}
+.pad,.actions {
+  position:absolute;
+  bottom:max(10px,env(safe-area-inset-bottom));
+  height:34%;
+  pointer-events:none
+}
+.pad {
+  left:max(10px,env(safe-area-inset-left));
+  width:34%
+}
+.actions {
+  right:max(10px,env(safe-area-inset-right));
+  width:31%
+}
+.ctrl {
+  position:absolute;
+  pointer-events:auto;
+  border:1px solid #ffffff48;
+  background:#101521b8;
+  color:#fff;
+  font:800 clamp(11px,2.25vw,18px) system-ui;
+  border-radius:50%;
+  width:clamp(50px,8.5vw,72px);
+  height:clamp(50px,8.5vw,72px);
+  display:grid;
+  place-items:center;
+  box-shadow:0 4px 14px #0009,inset 0 0 15px #ffffff0b;
+  backdrop-filter:blur(4px);
+  touch-action:none
+}
+.ctrl.active {
+  filter:brightness(1.5);
+  transform:scale(.91);
+  border-color:#fff
+}
+.left {
+  left:0;
+  bottom:0
+}
+.right {
+  left:clamp(64px,10.5vw,90px);
+  bottom:0
+}
+.jump {
+  left:clamp(32px,5.25vw,45px);
+  bottom:clamp(62px,10vw,84px);
+  background:#2774bccc
+}
+.down {
+  left:clamp(32px,5.25vw,45px);
+  bottom:clamp(-3px,-.5vw,0px)
+}
+.attack {
+  right:0;
+  bottom:0;
+  background:#c43f4dcc
+}
+.skill {
+  right:clamp(64px,10.5vw,90px);
+  bottom:0;
+  background:#318956cc
+}
+.ult {
+  right:clamp(32px,5.25vw,45px);
+  bottom:clamp(62px,10vw,84px);
+  background:#d19b24dd;
+  color:#171000
+}
+.pause {
+  left:max(8px,env(safe-area-inset-left));
+  top:max(8px,env(safe-area-inset-top));
+  bottom:auto;
+  width:44px;
+  height:44px;
+  border-radius:12px
+}
+#game.touch #touchControls {
+  display:block
+}
+#controllerSelect {
+  position:fixed;
+  z-index:120;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:radial-gradient(circle at 50% 35%,#182746,#060812 70%);
+  padding:24px;
+  color:#fff;
+  font-family:system-ui;
+  text-align:center
+}
+#controllerSelect.hidden {
+  display:none
+}
+.controllerCard {
+  width:min(620px,94vw);
+  padding:26px;
+  border:1px solid #ffffff28;
+  border-radius:24px;
+  background:#0b1020e8;
+  box-shadow:0 22px 70px #000b
+}
+.controllerCard h1 {
+  margin:0 0 8px;
+  font-size:clamp(25px,5vw,42px);
+  color:#4df
+}
+.controllerCard p {
+  margin:0 0 22px;
+  color:#aabbd6
+}
+.controllerOptions {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px
+}
+.controllerChoice {
+  min-height:105px;
+  border:1px solid #ffffff35;
+  border-radius:18px;
+  background:#151d31;
+  color:#fff;
+  font:800 clamp(16px,3vw,23px) system-ui;
+  padding:15px;
+  touch-action:manipulation
+}
+.controllerChoice small {
+  display:block;
+  margin-top:8px;
+  color:#9cadc8;
+  font-size:12px;
+  font-weight:500
+}
+.controllerChoice.touchChoice {
+  background:linear-gradient(145deg,#123a48,#15586b)
+}
+.controllerChoice:active {
+  transform:scale(.97);
+  filter:brightness(1.25)
+}
+@media(max-width:640px) {
+  .controllerCard {
+  padding:18px
+}
+.controllerOptions {
+  gap:10px
+}
+.controllerChoice {
+  min-height:82px
+}
+}
+#rotateNotice {
+  display:none;
+  position:fixed;
+  z-index:100;
+  inset:0;
+  background:linear-gradient(145deg,#060812,#10182b);
+  color:#fff;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:28px;
+  font:700 18px system-ui
+}
+#rotateNotice .phone {
+  font-size:58px;
+  display:block;
+  margin-bottom:16px;
+  animation:turn 1.8s ease-in-out infinite
+}
+#rotateNotice small {
+  display:block;
+  color:#96a8c8;
+  font-size:13px;
+  margin-top:10px;
+  font-weight:500
+}
+@keyframes turn {
+  0%,20% {
+  transform:rotate(0)
+}
+70%,100% {
+  transform:rotate(90deg)
+}
+}
+@media(orientation:portrait) and (pointer:coarse) {
+  #rotateNotice {
+  display:flex
+}
+#game {
+  visibility:hidden
+}
+}
+/* RESPONSIVE_CONTROLS_HEIGHT_BASED */
+:root {
+  --game-w:min(100vw,calc(100dvh * 16 / 9));
+  --game-h:min(100dvh,calc(100vw * 9 / 16));
+/* Controls scale from viewport height only, for consistent landscape sizing. */
+  --btn-base:clamp(38px,13dvh,76px);
+  --control-scale:1;
+  --btn:calc(var(--btn-base) * var(--control-scale));
+  --btn-min:38px;
+  --gap:clamp(4px,1.8dvh,11px);
+  --edge:clamp(5px,2.2dvh,14px);
+}
+#game {
+  width:var(--game-w);
+  height:var(--game-h)
+}
+.pad,.actions {
+  bottom:max(var(--edge),env(safe-area-inset-bottom));
+  height:calc(max(var(--btn-min),var(--btn))*2 + var(--gap));
+}
+.pad {
+  left:max(var(--edge),env(safe-area-inset-left));
+  width:calc(max(var(--btn-min),var(--btn))*3 + var(--gap)*2)
+}
+.actions {
+  right:max(var(--edge),env(safe-area-inset-right));
+  width:calc(max(var(--btn-min),var(--btn))*2 + var(--gap))
+}
+.ctrl {
+  width:max(var(--btn-min),var(--btn));
+  height:max(var(--btn-min),var(--btn));
+  font-size:clamp(10px,2.4dvh,16px);
+  border-width:clamp(1px,.22dvh,2px);
+}
+.left {
+  left:0;
+  bottom:0
+}
+.right {
+  left:calc(max(var(--btn-min),var(--btn))*2 + var(--gap)*2);
+  bottom:0
+}
+.jump {
+  left:calc(max(var(--btn-min),var(--btn)) + var(--gap));
+  bottom:calc(max(var(--btn-min),var(--btn)) + var(--gap))
+}
+.down {
+  left:calc(max(var(--btn-min),var(--btn)) + var(--gap));
+  bottom:0
+}
+.attack {
+  right:0;
+  bottom:0
+}
+.skill {
+  right:calc(max(var(--btn-min),var(--btn)) + var(--gap));
+  bottom:0
+}
+.ult {
+  right:0;
+  bottom:calc(max(var(--btn-min),var(--btn)) + var(--gap))
+}
+.pause {
+  left:max(var(--edge),env(safe-area-inset-left));
+  top:max(var(--edge),env(safe-area-inset-top));
+  width:clamp(38px,8dvh,50px);
+  height:clamp(38px,8dvh,50px);
+}
+.topBtn {
+  top:max(var(--edge),env(safe-area-inset-top));
+  font-size:clamp(9px,2dvh,12px);
+  padding:clamp(5px,1.1dvh,8px) clamp(8px,1.7vw,13px)
+}
+.controllerCard {
+  max-height:92dvh;
+  overflow:auto;
+  padding:clamp(14px,3dvh,26px)
+}
+.controllerChoice {
+  min-height:clamp(62px,18dvh,105px);
+  font-size:clamp(14px,3.2dvh,22px);
+  padding:clamp(9px,2dvh,15px)
+}
+.controllerChoice small {
+  font-size:clamp(9px,1.8dvh,12px)
+}
+@media (max-height:320px) {
+  :root {
+  --btn:clamp(34px,12.5dvh,40px);
+  --btn-min:34px;
+  --gap:3px;
+  --edge:4px
+}
+  .topBtn {
+  font-size:8px;
+  padding:3px 6px
+}
+  .controllerCard h1 {
+  font-size:21px
+}
+.controllerCard p {
+  margin-bottom:8px;
+  font-size:11px
+}
+}
+@media (min-height:321px) and (max-height:420px) {
+  :root {
+  --btn:clamp(38px,13dvh,54px);
+  --gap:clamp(4px,1.5dvh,7px);
+  --edge:5px
+}
+}
+@media (min-height:421px) and (max-height:600px) {
+  :root {
+  --btn:clamp(50px,13dvh,76px)
+}
+}
+@media (min-height:601px) and (orientation:landscape) {
+  :root {
+  --btn:clamp(68px,11.5dvh,86px);
+  --gap:clamp(8px,1.6dvh,14px)
+}
+}
+#controlSettings {
+  display:none;
+  position:fixed;
+  z-index:150;
+  inset:0;
+  align-items:center;
+  justify-content:center;
+  background:#000b;
+  padding:16px;
+  font-family:system-ui;
+  color:#fff;
+  touch-action:none
+}
+#controlSettings.open {
+  display:flex
+}
+.settingsCard {
+  width:min(430px,92vw);
+  max-height:88dvh;
+  overflow:auto;
+  background:#0d1425;
+  border:1px solid #ffffff30;
+  border-radius:22px;
+  padding:clamp(16px,3dvh,24px);
+  box-shadow:0 20px 65px #000c
+}
+.settingsCard h2 {
+  margin:0 0 6px;
+  color:#4df
+}
+.settingsCard p {
+  margin:0 0 18px;
+  color:#9fb0ca;
+  font-size:13px
+}
+.settingRow {
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:10px;
+  align-items:center;
+  margin:15px 0
+}
+.settingRow label {
+  font-weight:700
+}
+.settingValue {
+  min-width:52px;
+  text-align:right;
+  color:#4df;
+  font-weight:800
+}
+.settingRow input {
+  grid-column:1/-1;
+  width:100%;
+  accent-color:#4df;
+  touch-action:pan-x
+}
+.settingsActions {
+  display:flex;
+  gap:10px;
+  justify-content:flex-end;
+  margin-top:20px
+}
+.settingsActions button {
+  border:1px solid #ffffff35;
+  border-radius:12px;
+  background:#19243b;
+  color:#fff;
+  padding:10px 16px;
+  font-weight:800;
+  touch-action:manipulation
+}
+.settingsActions .primary {
+  background:#4df;
+  color:#012
+}
+.ctrl,.topBtn,.controllerChoice,#controlSettings button {
+  touch-action:none;
+  user-select:none;
+  -webkit-user-select:none;
+  -webkit-touch-callout:none
+}
+#touchStateUI {
+  position:absolute;
+  inset:0;
+  z-index:40;
+  pointer-events:none;
+  font-family:system-ui
+}
+#upgradeTouch,#gameOverTouch {
+  display:none;
+  position:absolute;
+  inset:0;
+  align-items:center;
+  justify-content:center;
+  background:#0008;
+  padding:clamp(10px,3dvh,24px);
+  pointer-events:auto;
+  touch-action:none
+}
+#upgradeTouch.show,#gameOverTouch.show {
+  display:flex
+}
+.upgradePanel,.gameOverPanel {
+  width:min(760px,94%);
+  text-align:center
+}
+.upgradePanel h2,.gameOverPanel h2 {
+  margin:0 0 12px;
+  color:#4df
+}
+.upgradeButtons {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:clamp(7px,1.5vw,14px)
+}
+.upgradeBtn {
+  min-height:clamp(76px,22dvh,140px);
+  border:2px solid #4df;
+  border-radius:18px;
+  background:#111a2eef;
+  color:#fff;
+  padding:10px;
+  font:800 clamp(11px,2.6dvh,17px) system-ui;
+  touch-action:none
+}
+.upgradeBtn span {
+  display:block;
+  color:#4df;
+  font-size:clamp(20px,5dvh,36px);
+  margin-bottom:7px
+}
+.upgradeBtn:active,.restartBtn:active {
+  transform:scale(.96);
+  filter:brightness(1.35)
+}
+.restartBtn {
+  border:2px solid #4df;
+  border-radius:16px;
+  background:#12384a;
+  color:#fff;
+  padding:14px 28px;
+  font:800 clamp(15px,3.2dvh,22px) system-ui;
+  touch-action:none
+}
+.gameOverPanel p {
+  color:#ccd;
+  margin:8px 0 18px
+}
+@media(max-height:360px) {
+  .upgradePanel h2 {
+  font-size:18px;
+  margin-bottom:7px
+}
+.upgradeBtn {
+  min-height:62px;
+  padding:6px
+}
+.upgradeBtn span {
+  font-size:19px;
+  margin-bottom:3px
+}
+}
+#mobileMenu,#mobilePause {
+  display:none;
+  position:absolute;
+  z-index:45;
+  inset:0;
+  align-items:center;
+  justify-content:center;
+  background:#050814e8;
+  padding:clamp(10px,3dvh,22px);
+  font-family:system-ui;
+  color:#fff;
+  pointer-events:auto;
+  touch-action:none
+}
+#mobileMenu.show,#mobilePause.show {
+  display:flex
+}
+.mobilePanel {
+  width:min(820px,96%);
+  text-align:center
+}
+.mobilePanel h2 {
+  margin:0 0 12px;
+  color:#4df
+}
+.mobileCharacters {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:clamp(7px,1.5vw,14px)
+}
+.mobileCharacter {
+  min-height:clamp(90px,28dvh,175px);
+  border:2px solid #ffffff35;
+  border-radius:20px;
+  background:#111a2eef;
+  color:#fff;
+  padding:clamp(8px,2dvh,15px);
+  font:700 clamp(11px,2.5dvh,17px) system-ui;
+  touch-action:none
+}
+.mobileCharacter strong {
+  display:block;
+  color:#4df;
+  font-size:clamp(17px,4dvh,27px);
+  margin-bottom:7px
+}
+.mobileCharacter small {
+  display:block;
+  color:#9fb0ca;
+  margin-top:6px
+}
+.mobileCharacter.selected {
+  border-color:#fd3;
+  box-shadow:0 0 20px #fd36
+}
+.mobileStart {
+  margin-top:14px;
+  border:0;
+  border-radius:15px;
+  background:#4df;
+  color:#012;
+  padding:12px 32px;
+  font:900 clamp(16px,3.5dvh,23px) system-ui;
+  touch-action:none
+}
+.pauseActions {
+  display:grid;
+  gap:10px;
+  width:min(330px,86vw);
+  margin:auto
+}
+.pauseActions button {
+  border:1px solid #ffffff35;
+  border-radius:14px;
+  background:#18243d;
+  color:#fff;
+  padding:12px;
+  font:800 clamp(14px,3dvh,20px) system-ui;
+  touch-action:none
+}
+.pauseActions .resume {
+  background:#4df;
+  color:#012
+}
+.mobileCharacter:active,.mobileStart:active,.pauseActions button:active {
+  transform:scale(.97);
+  filter:brightness(1.25)
+}
+#game:not(.touch) #settingsBtn {
+  display:none
+}
+@media(max-height:360px) {
+  .mobilePanel h2 {
+  font-size:18px;
+  margin-bottom:6px
+}
+.mobileCharacter {
+  min-height:72px;
+  padding:5px
+}
+.mobileStart {
+  margin-top:7px;
+  padding:8px 25px
+}
+}
+.topBtn {
+  z-index:60
+}
+#game.playing .topBtn {
+  display:none
+}
+.ctrl {
+  transition:opacity .12s,filter .12s
+}
+.ctrl.cooling {
+  opacity:.42;
+  filter:grayscale(.7)
+}
+.ctrl.skill {
+  font-size:clamp(11px,2.8dvh,20px)
+}
+.ctrl.ready {
+  animation:ultPulse 1s ease-in-out infinite
+}
+@keyframes ultPulse {
+  50% {
+  box-shadow:0 0 22px 6px #fd3b,inset 0 0 15px #ffffff22;
+  transform:scale(1.07)
+}
+}
+#editBar {
+  display:none;
+  position:absolute;
+  z-index:70;
+  top:max(8px,env(safe-area-inset-top));
+  left:50%;
+  transform:translateX(-50%);
+  align-items:center;
+  gap:8px;
+  background:#0b1020ee;
+  border:1px solid #fd3;
+  border-radius:14px;
+  padding:6px 10px;
+  color:#fff;
+  font:700 clamp(10px,2.2dvh,14px) system-ui;
+  white-space:nowrap
+}
+#editBar button {
+  border:1px solid #ffffff40;
+  border-radius:10px;
+  background:#19243b;
+  color:#fff;
+  padding:6px 10px;
+  font:800 inherit;
+  touch-action:manipulation
+}
+#editBar .primary {
+  background:#fd3;
+  color:#120
+}
+#game.editing #editBar {
+  display:flex
+}
+#game.editing #touchStateUI,#game.editing .topBtn {
+  display:none!important
+}
+#game.editing .ctrl {
+  outline:2px dashed #fd3;
+  outline-offset:2px;
+  opacity:1!important;
+  filter:none!important
+}
+#game.lefty .pad {
+  left:auto;
+  right:max(var(--edge),env(safe-area-inset-right))
+}
+#game.lefty .actions {
+  right:auto;
+  left:max(var(--edge),env(safe-area-inset-left))
+}
+.ctrl {
+  opacity:var(--ctrl-op,1)
+}
+.ctrl.cooling {
+  opacity:calc(var(--ctrl-op,1)*.45)
+}
+.settingsCard {
+  touch-action:pan-y
+}
